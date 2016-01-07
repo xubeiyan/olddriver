@@ -9,6 +9,9 @@ var driveMethod = document.getElementById("drivemethod"),
 // 改变编码	
 driveMethod.onchange = function () {
 	coding = driveMethod.value;
+	if (coding == "ascii") {
+		
+	}
 }
 
 // 发车
@@ -100,39 +103,97 @@ function morse(text, method) {
 }
 
 //ASCII码
-function ascii(value, method) {
-	var text = [' ','!','"','#','$','%','&',"'",'(',')','*','+',',','-','.','/',
-				'0','1','2','3','4','5','6','7','8','9',':',';','<','=','>','?',
-				'@','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
-				'P','Q','R','S','T','U','V','W','X','Y','Z','[',' ',']','^','_',
-				'`','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o',
-				'p','q','r','s','t','u','v','w','x','y','z','{','|','}','~'],
-		ascii = ['20','21','22','23','24','25','26','27',
-				'28','29','2A','2B','2C','2D','2E','2F',
-				'30','31','32','33','34','35','36','37',
-				'38','39','3A','3B','3C','3D','3E','3F',
-				'40','41','42','43','44','45','46','47',
-				'48','49','4A','4B','4C','4D','4E','4F',
-				'50','51','52','53','54','55','56','57',
-				'58','59','5A','5B','5C','5D','5E','5F',
-				'60','61','62','63','64','65','66','67',
-				'68','69','6A','6B','6C','6D','6E','6F',
-				'70','71','72','73','74','75','76','77',
-				'78','79','7A','7B','7C','7D','7E','7F'];
+function ascii(text, method) {
+	function asciiOne(value, method) {
+		var textCode = [' ','!','"','#','$','%','&',"'",'(',')','*','+',',','-','.','/',
+					'0','1','2','3','4','5','6','7','8','9',':',';','<','=','>','?',
+					'@','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
+					'P','Q','R','S','T','U','V','W','X','Y','Z','[',' ',']','^','_',
+					'`','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o',
+					'p','q','r','s','t','u','v','w','x','y','z','{','|','}','~'],
+			asciiCode = ['20','21','22','23','24','25','26','27',
+					'28','29','2A','2B','2C','2D','2E','2F',
+					'30','31','32','33','34','35','36','37',
+					'38','39','3A','3B','3C','3D','3E','3F',
+					'40','41','42','43','44','45','46','47',
+					'48','49','4A','4B','4C','4D','4E','4F',
+					'50','51','52','53','54','55','56','57',
+					'58','59','5A','5B','5C','5D','5E','5F',
+					'60','61','62','63','64','65','66','67',
+					'68','69','6A','6B','6C','6D','6E','6F',
+					'70','71','72','73','74','75','76','77',
+					'78','79','7A','7B','7C','7D','7E','7F'];
 
+		if (method == "encode") {
+			for (var i = 0; i < textCode.length; ++i) {
+				if (textCode[i] == value) {
+					return asciiCode[i];
+				}
+			}
+			return "00";
+		} else if (method == "decode") {
+			for (var i = 0; i < asciiCode.length; ++i) {
+				if (asciiCode[i] == value) {
+					return textCode[i];
+				}
+			}
+			return "Error";
+		}
+	}
+	// 转换十六进制到二进制
+	function hexToBin (hex) {
+		var hexList = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'],
+			binList = [	'0000','0001','0010','0011','0100','0101','0110','0111',
+						'1000','1001','1010','1011','1100','1101','1110','1111'],
+			output = "";
+		for (var i = 0; i < hex.length; ++i) {
+			for (var j = 0; j < hexList.length; ++j) {
+				if (hex[i] == hexList[j]) {
+					output += binList[j];
+					break;
+				}
+			}
+		}
+		return output.substring(1, output.length);
+	}
+	// 转换二进制到十六进制
+	function binToHex (bin) {
+		if (bin.length == 7) {
+			bin = '0' + bin;
+		}
+		if (bin.length != 8) {
+			return "00";
+		}
+		var hexList = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'],
+			binList = [	'0000','0001','0010','0011','0100','0101','0110','0111',
+						'1000','1001','1010','1011','1100','1101','1110','1111'],
+			output = "",
+			first = bin.substring(0, 4),
+			second = bin.substring(4, 8);
+		for (var i = 0; i < binList.length; ++i) {
+			if (first == binList[i]) {
+				output += hexList[i];
+			}
+		}
+		for (var i = 0; i < binList.length; ++i) {
+			if (second == binList[i]) {
+				output += hexList[i];
+			}
+		}
+		//console.log(output);
+		return output;
+	}
+	var output = "";
 	if (method == "encode") {
 		for (var i = 0; i < text.length; ++i) {
-			if (text[i] == value) {
-				return ascii[i];
-			}
+			output += hexToBin(asciiOne(text[i], "encode")) + ' ';
 		}
-		return "00";
+		output = output.substring(0, output.length - 1); // 去掉最后的空格
 	} else if (method == "decode") {
-		for (var i = 0; i < ascii.length; ++i) {
-			if (ascii[i] == value) {
-				return text[i];
-			}
+		var textArray = text.split(' ');
+		for (var i = 0; i < textArray.length; ++i) {
+			output += asciiOne(binToHex(textArray[i]), "decode");
 		}
-		return "Error";
 	}
+	return output;
 }
