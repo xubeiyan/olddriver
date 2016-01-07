@@ -2,7 +2,8 @@
 
 ####2016.01.07
 
-add ASCII send a car and rewrite the morse function
+Add ASCII send a car and rewrite the morse function
+Add a logo and fix the bug of ASCII
 
 ####2016.01.06
 
