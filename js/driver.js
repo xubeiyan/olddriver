@@ -39,10 +39,11 @@ driveACar.onclick = function () {
 	}
 	if (coding == "morse") {
 		carLike.value = morse(carContent.value, "encode", split);
-	} else if (coding == "ascii"){
+	} else if (coding == "ascii") {
 		carLike.value = ascii(carContent.value, "encode", split);
-	}
-	else {
+	} else if (coding == "story") {
+		carLike.value = story(carContent.value);
+	} else {
 		carLike.value = "这个车太超前了，不敢飙车";
 	}
 }
@@ -56,8 +57,9 @@ takeACar.onclick = function () {
 		carContent.value = morse(carLike.value, "decode", split);
 	} else if (coding == "ascii") {
 		carContent.value = ascii(carLike.value, "decode", split);
-	}
-	else {
+	} else if (coding == "story") {
+		carContent.value = "正常人都能看出来的就不用劳烦了吧";
+	} else {
 		carContent.value = "这个飙车姿势太高了还未掌握";
 	}
 }
@@ -214,4 +216,13 @@ function ascii(text, method, splitChar) {
 		}
 	}
 	return output;
+}
+// 故事会型
+function story(text) {
+	var storyText = ["审判长：播放器代码是你写的吗？\n被告：是的。\n审判长：念一遍。\n被告：%text%"],
+		length = storyText.length,
+		rand = Math.floor(Math.random() * length),
+		str = storyText[rand].replace('%text%', text);
+	return str;
+		
 }
