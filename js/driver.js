@@ -219,7 +219,8 @@ function ascii(text, method, splitChar) {
 }
 // 故事会型
 function story(text) {
-	var storyText = ["审判长：播放器代码是你写的吗？\n被告：是的。\n审判长：念一遍。\n被告：%text%"],
+	var storyText = ["审判长：播放器代码是你写的吗？\n被告：是的。\n审判长：念一遍。\n被告：%text%",
+	"我翻开近代历史一看，这历史没有年代，歪歪斜m斜的每页上都写着“氏王目田”几个字。我横竖睡不着，仔细看了半夜，才从字缝里看出字来，满本都写着两个字:'%text'!"],
 		length = storyText.length,
 		rand = Math.floor(Math.random() * length),
 		str = storyText[rand].replace('%text%', text);
