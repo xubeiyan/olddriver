@@ -4,15 +4,33 @@ var driveMethod = document.getElementById("drivemethod"),
 	carContent = document.getElementById("carcontent"),
 	carLike = document.getElementById("carlike"),
 	info = document.getElementById("information"),
-	coding = "morse";
+	driveOption = document.getElementById("driveoption"),
+	coding = "morse",
+	split = " ";
 
 // 改变编码	
 driveMethod.onchange = function () {
 	coding = driveMethod.value;
-	if (coding == "ascii") {
-		
+	if (coding == "morse") {
+		driveOption.style.display = "inline-block";
+		driveOption.innerHTML = '<option value="space">空格</option><option value="slash">/</option>';
+	} else if (coding == "ascii") {
+		driveOption.style.display = "inline-block";
+		driveOption.innerHTML = '<option value="space">空格</option><option value="slash">/</option>';
+	} else {
+		driveOption.style.display = "none";
 	}
 }
+
+driveOption.onchange = function () {
+	if (driveOption.value == "slash") {
+		split = "/";
+	} else {
+		split = " ";
+	}
+}
+
+driveMethod.onchange();
 
 // 发车
 driveACar.onclick = function () {
@@ -20,11 +38,12 @@ driveACar.onclick = function () {
 		return;
 	}
 	if (coding == "morse") {
-		carLike.value = morse(carContent.value, "encode");
-	} else if (coding == "ascii"){
-		carLike.value = ascii(carContent.value, "encode");
-	}
-	else {
+		carLike.value = morse(carContent.value, "encode", split);
+	} else if (coding == "ascii") {
+		carLike.value = ascii(carContent.value, "encode", split);
+	} else if (coding == "story") {
+		carLike.value = story(carContent.value);
+	} else {
 		carLike.value = "这个车太超前了，不敢飙车";
 	}
 }
@@ -35,17 +54,18 @@ takeACar.onclick = function () {
 		return;
 	}
 	if (coding == "morse") {
-		carContent.value = morse(carLike.value, "decode");
+		carContent.value = morse(carLike.value, "decode", split);
 	} else if (coding == "ascii") {
-		carContent.value = ascii(carLike.value, "decode");
-	}
-	else {
+		carContent.value = ascii(carLike.value, "decode", split);
+	} else if (coding == "story") {
+		carContent.value = "正常人都能看出来的就不用劳烦了吧";
+	} else {
 		carContent.value = "这个飙车姿势太高了还未掌握";
 	}
 }
 
 //莫尔斯电码
-function morse(text, method) {
+function morse(text, method, splitChar) {
 	function morseOne(value, method) {
 		var textCode = ['a','b','c','d','e',
 					'f','g','h','i','j',
@@ -90,12 +110,12 @@ function morse(text, method) {
 	var output = "";
 	if (method == "encode") {
 		for (var i = 0; i < text.length; ++i) {
-			output += morseOne(text[i], "encode") + ' ';
+			output += morseOne(text[i], "encode") + splitChar;
 		}
 		output = output.substring(0, output.length - 1); // 去掉最后的空格
 	} else if (method == "decode") {
-		text = text.replace(/\n/g, " "); //替换其中的换行为空格
-		var textArray = text.split(' ');
+		text = text.replace(/\n/g, splitChar); //替换其中的换行为空格
+		var textArray = text.split(splitChar);
 		for (var i = 0; i < textArray.length; ++i) {
 			output += morseOne(textArray[i], "decode");
 		}
@@ -104,7 +124,7 @@ function morse(text, method) {
 }
 
 //ASCII码
-function ascii(text, method) {
+function ascii(text, method, splitChar) {
 	function asciiOne(value, method) {
 		var textCode = [' ','!','"','#','$','%','&',"'",'(',')','*','+',',','-','.','/',
 					'0','1','2','3','4','5','6','7','8','9',':',';','<','=','>','?',
@@ -187,14 +207,24 @@ function ascii(text, method) {
 	var output = "";
 	if (method == "encode") {
 		for (var i = 0; i < text.length; ++i) {
-			output += hexToBin(asciiOne(text[i], "encode")) + ' ';
+			output += hexToBin(asciiOne(text[i], "encode")) + splitChar;
 		}
 		output = output.substring(0, output.length - 1); // 去掉最后的空格
 	} else if (method == "decode") {
-		var textArray = text.split(' ');
+		var textArray = text.split(splitChar);
 		for (var i = 0; i < textArray.length; ++i) {
 			output += asciiOne(binToHex(textArray[i]), "decode");
 		}
 	}
 	return output;
+}
+// 故事会型
+function story(text) {
+	var storyText = ["审判长：播放器代码是你写的吗？\n被告：是的。\n审判长：念一遍。\n被告：%text%",
+	"我翻开近代历史一看，这历史没有年代，歪歪斜m斜的每页上都写着“氏王目田”几个字。我横竖睡不着，仔细看了半夜，才从字缝里看出字来，满本都写着两个字:'%text'!"],
+		length = storyText.length,
+		rand = Math.floor(Math.random() * length),
+		str = storyText[rand].replace('%text%', text);
+	return str;
+		
 }
