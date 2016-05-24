@@ -94,6 +94,7 @@ function morse(text, method) {
 		}
 		output = output.substring(0, output.length - 1); // 去掉最后的空格
 	} else if (method == "decode") {
+		text = text.replace(/\n/g, " "); //替换其中的换行为空格
 		var textArray = text.split(' ');
 		for (var i = 0; i < textArray.length; ++i) {
 			output += morseOne(textArray[i], "decode");
