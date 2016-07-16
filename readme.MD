@@ -1,5 +1,9 @@
 #Old Driver version 0.1.1
 
+####2016.07.16
+
+Add a story for story mode, and a little copyright infomation(whited233)
+
 ####2016.01.09
 
 Add a option for dividing the encoded text
