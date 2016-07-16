@@ -43,6 +43,8 @@ driveACar.onclick = function () {
 		carLike.value = ascii(carContent.value, "encode", split);
 	} else if (coding == "story") {
 		carLike.value = story(carContent.value);
+	} else if (coding == "base64") {
+		carLike.value = base64(carContent.value, "encode");
 	} else {
 		carLike.value = "这个车太超前了，不敢飙车";
 	}
@@ -57,6 +59,8 @@ takeACar.onclick = function () {
 		carContent.value = morse(carLike.value, "decode", split);
 	} else if (coding == "ascii") {
 		carContent.value = ascii(carLike.value, "decode", split);
+	} else if (coding == "base64") {
+		carContent.value = base64(carLike.value, "decode");
 	} else if (coding == "story") {
 		carContent.value = "正常人都能看出来的就不用劳烦了吧";
 	} else {
@@ -218,6 +222,17 @@ function ascii(text, method, splitChar) {
 	}
 	return output;
 }
+
+// base64加解密
+function base64(text, method) {
+	if (method == 'encode') {
+		return btoa(text);
+	} else if (method == 'decode') {
+		return atob(text);
+	}
+}
+
+
 // 故事会型
 function story(text) {
 	var storyText = ["审判长：播放器代码是你写的吗？\n被告：是的。\n审判长：念一遍。\n被告：%text%",
