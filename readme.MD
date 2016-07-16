@@ -2,7 +2,7 @@
 
 ####2016.07.16
 
-Add a story for story mode, and a little copyright infomation(whited233)
+Add a story for story mode, and a little copyright information(whited233)
 
 ####2016.01.09
 
