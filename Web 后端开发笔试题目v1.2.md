@@ -12,26 +12,26 @@
 
 - 请设计一套选课系统的数据库表结构，并使其支持不同种类的用户对系统拥有不同的访问权限。
 
->####数据库：(如果是将权限细分而不是以角色如管理员老师学生这种方式来规定权限的话)   
+>####数据库：(如果是将权限细分而不是以角色如管理员老师学生这种方式来规定权限的话)    
 
 >两个表user和course     
 >#####user表    
->*user_id (用户id，主键) int    
->*user_name (用户名，非空) varchar    
->*password (密码，非空) varchar    
->*status (帐户状态，停用或者启用，非空) enum('disable','enable')    
->*user_modify (用户管理，只有管理员可以添加或删除用户：管理员老师和学生) enum('no','yes')    
->*course_modify (修改课程，只有老师有修改课程的权限，包括添加，修改，删除) enum('no', 'yes')    
->*course_list (列出课程，老师和学生有列出课程的权限) enum('no', 'yes')    
->*course_select (选择课程，只有学生有选择课程的权限) enum('no', 'yes')    
->*selected_courses (选择的课程，course表course_id是其外键，可为空) int    
+*user_id (用户id，主键) int    
+*user_name (用户名，非空) varchar    
+*password (密码，非空) varchar    
+*status (帐户状态，停用或者启用，非空) enum('disable','enable')    
+*user_modify (用户管理，只有管理员可以添加或删除用户：管理员老师和学生) enum('no','yes')    
+*course_modify (修改课程，只有老师有修改课程的权限，包括添加，修改，删除) enum('no', 'yes')    
+*course_list (列出课程，老师和学生有列出课程的权限) enum('no', 'yes')    
+*course_select (选择课程，只有学生有选择课程的权限) enum('no', 'yes')    
+*selected_courses (选择的课程，course表course_id是其外键，可为空) int    
  
 >#####course表
->*course_id (课程id) int    
->*course_name (课程名称) varchar    
->*course_place (课程地点) varchar    
->*course_time (课程时间) varchar    
->*course_teacher (课程教师) varchar    
+*course_id (课程id) int    
+*course_name (课程名称) varchar    
+*course_place (课程地点) varchar    
+*course_time (课程时间) varchar    
+*course_teacher (课程教师) varchar    
 
 - 如果需要一个能缓存任何数据的功能，并支持在缓存失效时提供自定义 fallback 方法从其它地方获取数据，你会怎样实现它？请写出接口代码
 
@@ -122,7 +122,7 @@ class Answer {
 6.7.8.9 - - [12/Nov/2013:05:06:07 +0800] "GET / HTTP/1.0" 200 2333 "-" "Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)" "123.123.123.123"
 ```
 
-用JavaScript（nodejs）吧，看了下最初的日志想用正则表达式最后还是放弃了……
+>用JavaScript（nodejs）吧，看了下最初的日志想用正则表达式最后还是放弃了……
 ```javascript
 const fs = require('fs');
 const readline = require('readline');
