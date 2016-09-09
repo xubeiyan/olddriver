@@ -122,7 +122,8 @@ class Answer {
 6.7.8.9 - - [12/Nov/2013:05:06:07 +0800] "GET / HTTP/1.0" 200 2333 "-" "Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)" "123.123.123.123"
 ```
 
->用JavaScript（nodejs）吧，看了下最初的日志想用正则表达式最后还是放弃了……
+>用JavaScript（nodejs）吧，看了下最初的日志想用正则表达式最后还是放弃了……    
+
 ```javascript
 const fs = require('fs');
 const readline = require('readline');
@@ -151,7 +152,8 @@ rl.on('line', function (line)  {
 ```
 
 >其实找了个命令行的，我根本不会Linux，下面都是乱说的（没有Linux系统没法测    
->$1为请求路径，$5为跳转URI，$6为浏览器字符串     
+>$1为请求路径，$5为跳转URI，$6为浏览器字符串    
+
 ```
 awk -F'"' '/GET/ {print $1 $5 $6}' /var/log/nginx-access.log | grep \/ (http:\/\/(www.)?030buy\.com) (.*)MSIE [6-8](.*) 
 ```
