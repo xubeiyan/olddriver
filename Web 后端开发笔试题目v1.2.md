@@ -6,32 +6,32 @@
 >开发框架PHP使用过基于MVC的ThinkPHP和CakePHP，其中ThinkPHP构建过项目，是从Python编写的数据库后端读取JSON数据，展现到使用ThinkPHP编写的Web后端上。当然我的任务是写PHP的Web后端，而CakePHP就仅限于使用过了。
 >而Nodejs则使用过Express这个框架，基本上也是属于初学者的水平。敲的代码也基本上是照着《了不起的Node.js》和《Node和Express开发》在敲，其中值得发掘的地方还非常多。    
 
-####前端:    
+>####前端:    
 >前端正在看React和AngularJS的书籍，如果说jQuery也算是一个的话，那也基本上算是用过吧，不过感觉自己的项目并用不上jQuery，所以基本上是手写JS代码。不过React和AngularJS这种MVVM的前端框架有很大的发展潜力。
 >URL路由，是在接收HTTP请求的时候，选择请求发送至何处的一套规则。例如使用MVC框架时，由如Apache的Rewrite模块将其重新定向至新的URL上。比如将/classA/methodB/argumentC重定向至index.php?class=classA&method=methodB&argument=argumentC之上。达到减少URL长度，减少入口数量，增加对搜索引擎的友好等几个方面的作用
 
 - 请设计一套选课系统的数据库表结构，并使其支持不同种类的用户对系统拥有不同的访问权限。
 
-####数据库：(如果是将权限细分而不是以角色如管理员老师学生这种方式来规定权限的话)   
+>####数据库：(如果是将权限细分而不是以角色如管理员老师学生这种方式来规定权限的话)   
 
 >两个表user和course     
- #####user表    
- *user_id (用户id，主键) int
- *user_name (用户名，非空) varchar
- *password (密码，非空) varchar
- *status (帐户状态，停用或者启用，非空) enum('disable','enable')
- *user_modify (用户管理，只有管理员可以添加或删除用户：管理员老师和学生) enum('no','yes')
- *course_modify (修改课程，只有老师有修改课程的权限，包括添加，修改，删除) enum('no', 'yes')
- *course_list (列出课程，老师和学生有列出课程的权限) enum('no', 'yes')
- *course_select (选择课程，只有学生有选择课程的权限) enum('no', 'yes')
- *selected_courses (选择的课程，course表course_id是其外键，可为空) int
+>#####user表    
+>*user_id (用户id，主键) int    
+>*user_name (用户名，非空) varchar    
+>*password (密码，非空) varchar    
+>*status (帐户状态，停用或者启用，非空) enum('disable','enable')    
+>*user_modify (用户管理，只有管理员可以添加或删除用户：管理员老师和学生) enum('no','yes')    
+>*course_modify (修改课程，只有老师有修改课程的权限，包括添加，修改，删除) enum('no', 'yes')    
+>*course_list (列出课程，老师和学生有列出课程的权限) enum('no', 'yes')    
+>*course_select (选择课程，只有学生有选择课程的权限) enum('no', 'yes')    
+>*selected_courses (选择的课程，course表course_id是其外键，可为空) int    
  
- #####course表
- *course_id (课程id) int
- *course_name (课程名称) varchar
- *course_place (课程地点) varchar
- *course_time (课程时间) varchar 
- *course_teacher (课程教师) varchar
+>#####course表
+>*course_id (课程id) int    
+>*course_name (课程名称) varchar    
+>*course_place (课程地点) varchar    
+>*course_time (课程时间) varchar    
+>*course_teacher (课程教师) varchar    
 
 - 如果需要一个能缓存任何数据的功能，并支持在缓存失效时提供自定义 fallback 方法从其它地方获取数据，你会怎样实现它？请写出接口代码
 
