@@ -2,10 +2,11 @@
 
 - 你用过哪些 Web 开发框架？可以的话请简单说明 URL 路由的原理
 
-####后端:     
+>####后端:     
 >开发框架PHP使用过基于MVC的ThinkPHP和CakePHP，其中ThinkPHP构建过项目，是从Python编写的数据库后端读取JSON数据，展现到使用ThinkPHP编写的Web后端上。当然我的任务是写PHP的Web后端，而CakePHP就仅限于使用过了。
->而Nodejs则使用过Express这个框架，基本上也是属于初学者的水平。敲的代码也基本上是照着《了不起的Node.js》和《Node和Express开发》在敲，其中值得发掘的地方还非常多。
-####前端:   
+>而Nodejs则使用过Express这个框架，基本上也是属于初学者的水平。敲的代码也基本上是照着《了不起的Node.js》和《Node和Express开发》在敲，其中值得发掘的地方还非常多。    
+
+####前端:    
 >前端正在看React和AngularJS的书籍，如果说jQuery也算是一个的话，那也基本上算是用过吧，不过感觉自己的项目并用不上jQuery，所以基本上是手写JS代码。不过React和AngularJS这种MVVM的前端框架有很大的发展潜力。
 >URL路由，是在接收HTTP请求的时候，选择请求发送至何处的一套规则。例如使用MVC框架时，由如Apache的Rewrite模块将其重新定向至新的URL上。比如将/classA/methodB/argumentC重定向至index.php?class=classA&method=methodB&argument=argumentC之上。达到减少URL长度，减少入口数量，增加对搜索引擎的友好等几个方面的作用
 
@@ -14,7 +15,7 @@
 ####数据库：(如果是将权限细分而不是以角色如管理员老师学生这种方式来规定权限的话)   
 
 >两个表user和course     
- #####user表
+ #####user表    
  *user_id (用户id，主键) int
  *user_name (用户名，非空) varchar
  *password (密码，非空) varchar
@@ -53,12 +54,12 @@ var fs = require('fs'),
 				} else {
 					callback();
 				}
-				
 			});
 		});
 	},
 	...
 ```
+
 - 如果 Web 页面内一个功能需要执行很长时间（超过 Web 请求超时时间），执行结束后还要通知操作者，你会怎样实现它？
 
 >这个问题我想到比较完美的方法是服务端先返回执行中，最后服务端主动推送完成消息的这一个解决方案了。
@@ -149,8 +150,8 @@ rl.on('line', function (line)  {
 });
 ```
 
->其实找了个命令行的，我根本不会Linux，下面都是乱说的（没有Linux系统没法测
->$1为请求路径，$5为跳转URI，$6为浏览器字符串
+>其实找了个命令行的，我根本不会Linux，下面都是乱说的（没有Linux系统没法测    
+>$1为请求路径，$5为跳转URI，$6为浏览器字符串     
 ```
 awk -F'"' '/GET/ {print $1 $5 $6}' /var/log/nginx-access.log | grep \/ (http:\/\/(www.)?030buy\.com) (.*)MSIE [6-8](.*) 
 ```
