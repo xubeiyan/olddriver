@@ -15,15 +15,15 @@
 
 这是一篇简短的LEGB规则下关于Python的变量名的命名空间和作用域解析的文章。接下来的部分会以简短的例子代码形式解释简短的问题。你可以只阅读这篇文章，但我建议你运行例子里的代码——复制&粘贴即可。如果想更简便一点，点击[这里]()下载IPython notebook。
 
-### 目录/Sections
+### 目录
 
-* [目录](#-Sections)
-* [目标](#-Objectives)
-* [关于命名空间(namespace)和作用域(scope)的介绍](#-Introduction-to-namespaces-and-scopes)
-	* [命名空间](#-Namespaces)
-	* [作用域](#-Scope)
-	* [提示](#-Tips)
-	* [LEGB规则下变量的作用域解析](#legb-scope-resolution-via-LEGB-rule)
+* [目录](#目录)
+* [目标](#目标)
+* [关于命名空间(namespace)和作用域(scope)的介绍](#关于命名空间(namespace)和作用域(scope)的介绍)
+	* [命名空间](#命名空间)
+	* [作用域](#作用域)
+	* [提示](#提示)
+	* [LEGB规则下变量的作用域解析](#LEGB规则下变量的作用域解析)
 * 1.LG - 局部(Local)和全局(Global)作用域
 	* 为什么
 	* 为什么
@@ -189,3 +189,152 @@ global variable [ a_var outside a_func() ]
 首先我们调用了`a_func()`，它是预定要输出`a_var`的值。根据LEGB规则，函数先会在它的局部作用域(L)里寻找。由于`a_func()`没有定义它自己的`a_var`，Python会向上一级，到全局作用域(G)里查找这个值，在全局作用域里这个值`a_var`已经被定义。
 
 ##### 例子 1.2
+
+现在，让我们在全局和局部作用域里都定义一个变量`a_var`。
+
+你能猜到下面的代码会输出什么吗？
+```python
+a_var = 'global value'
+
+def a_func():
+	a_var = 'local value'
+	print(a_var, '[ a_var inside a_func() ]')
+	
+a_func()
+print(a_var, '[ a_var outside a_func() ]')
+```
+
+a)
+```
+raise an error
+```
+
+b)
+```
+local value [ a_var inside a_func() ]
+global value [ a_var outside a_func() ]
+```
+
+c)
+```
+global value [ a_var inside a_func() ]
+global value [ a_var outside a_func() ]
+```
+
+#### 原因
+
+当我们调用`a_func()`的时候，Python会先去寻找局部作用域(L)里的`a_var`，因为`a_var`已经在`a_func`的局部作用域里定义了，它的值为`local value`，所以会输出这个值。注意它并未影响到全局作用域，因为他们是不同的作用域。
+
+但是我们可以在局部作用域中修改全局作用域里的值，使用`global`关键字就可以将该变量的作用层级提高到全局。参见下面的例子：
+```python
+a_var = 'global value'
+
+def a_func():
+	global a_var
+	a_var = 'local value'
+	print(a_var, '[ a_var inside a_func() ]')
+	
+print(a_var, '[ a_var outside a_func() ]')
+a_func()
+print(a_var, '[ a_var outside a_func() ]')
+```
+
+```
+global value [ a_var outside a_func() ]
+local value [ a_var inside a_func() ]
+local value [ a_var outside a_func() ]
+```
+
+但我们必须小心顺序问题：如果我们忘记了用特定标记指明我们修改的是一个全局作用域中的变量，就非常容易抛出一个`UnboundLocalError`（因为赋值语句的右边会先被执行）：
+
+```python
+a_var = 1
+
+def a_func():
+	a_var = a_var + 1
+	print(a_var, '[ a_var inside a_func() ]')
+	
+print(a_var, '[ a_var outside a_func() ]')
+a_func()
+```
+```
+1 [ a_var outside a_func() ]
+Traceback (most recent call last):
+  File "test.py", line 8, in <module>
+    a_func()
+  File "test.py", line 4, in a_func
+    a_var = a_var + 1
+UnboundLocalError: local variable 'a_var' referenced before assignment	
+```
+
+### 2.LEG - 局部(Local)、封闭(Enclosed)和全局(Global)作用域
+
+现在，我们来说明封闭(E)作用域。根据“局部”->“封闭”->“全局”的顺序，你能推测出下面的代码会输出什么吗？
+
+##### 例子 2.1
+
+```python
+a_var = 'global value'
+
+def outer():
+	a_var = 'enclosed value'
+	
+	def inner():
+		a_var = 'local value'
+		print(a_var)
+		
+	inner()
+	
+outer()
+```
+
+##### a)
+
+```
+global value
+```
+
+##### b)
+
+```
+enclosed value
+```
+
+##### c)
+
+```
+local value
+```
+
+#### 原因
+
+让我们快速的概括一下我们刚在所做的：我们先调用了`outer()`，它定义了一个局部变量`a_var`（相对全局作用域中的`a_var`）。然后，这个`outer()`函数调用了同样定义了一个`a_var`的`inner()`。在`inner()`方法里的`print()`函数首先会在它的局部作用域里搜索，因为它找到了一个，所以它会停止在更上一层里的搜索，打印出这个值。
+
+和`global`关键字类似，我们可以在内部函数中使用`nonlocal`来开启对外层(Enclosed)函数中指定变量的访问，从而使其值可以被修改。
+
+注意在本文写作时，`nonlocal`关键字已可以Python 3.x里使用(PEP-3104)但尚且不能在Python 2.x里使用。
+
+```python
+a_var = 'global value'
+
+def outer():
+	a_var = 'local value'
+	print('outer before:', a_var)
+	def inner():
+		nonlocal a_var
+		a_var = 'inner value'
+		print('in inner():', a_var)
+		
+	inner()
+	print("outer after:", a_var)
+	
+outer()
+```
+```
+outer before: local value
+in inner(): inner value
+outer after(): inner value
+```
+
+### 3.LEGB - 局部(Local)、封闭(Enclosed)、全局(Global)、内建(Built-in)作用域
+
