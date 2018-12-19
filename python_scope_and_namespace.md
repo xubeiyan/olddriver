@@ -25,27 +25,27 @@
 	* [提示](#提示)
 	* [LEGB规则下变量的作用域解析](#LEGB规则下变量的作用域解析)
 * 1.LG - 局部(Local)和全局(Global)作用域
-	* 为什么
-	* 为什么
+	* 原因
+	* 原因
 * 2.LEG - 局部(Local)、封闭(Enclosed)和全局(Global)作用域
-	* 为什么
+	* 原因
 * 3.LEGB - 局部(Local)、封闭(Enclosed)、全局(Global)和内建(Built-in)作用域
-	* 为什么
+	* 原因
 * 自测题
 * 结论
-	* 缓存规则
-	* 解决方案
+	* 经验规则
+	* 问题答案
 	* 注意：For循环中变量会泄露至全局命名空间的问题
 	
-### 目标/Objectives
+### 目标
 
 * 命名空间和作用域 - Python是怎么寻找变量名的？
 * 我能够同时定义/重用多个变量名吗？
 * Python是以什么样的顺序查找不同的命名空间中的变量名的？
 
-### 关于命名空间和作用域的介绍/Introduction to namespaces and scopes
+### 关于命名空间和作用域的介绍
 
-#### 命名空间/Namespaces
+#### 命名空间
 
 简单来说，命名空间指的是包含名字到对象指向的一个集合。你也许已经听说过，字面量(literal)、列表(list)、字典(dictionary)、函数、类等等，在Python中都是一个对象。一个形如“名字到对象”这样的映射允许我们通过名字——这个名字是我们指定的，来访问对应的对象。例如，我们假设了`a_string = "Hello string"`这样一条规定字符串的值的语句，就创建了一个到`"Hello string"`的引用，因此我们可以使用`a_string`这个变量名来访问这个字符串。
 
@@ -62,7 +62,7 @@ b_namespace = {'name_a': object_3, 'name_b': object_4, ...}
 
 举个例子来说，每当我们调用一个for循环或者定义一个函数时，Python则会创建他们自己的命名空间。命名空间拥有不同的层级（也就是所谓的“作用域”），我们将在下一节详细讨论这个方面。
 
-#### 作用域/Scope
+#### 作用域
 
 在上一节内容中，我们了解了命名空间能够彼此独立存在，他们都拥有自己的层级，这个层级的概念就是“作用域”。在Python中，作用域代表了我们在搜索变量的“名字到对象”关系时的命名空间的优先程度。
 
@@ -89,7 +89,7 @@ foo()
 
 那么问题来了，当需要输出变量i的值的时候，Python怎么知道要搜索哪个命名空间呢？这就是LEGB规则表现的舞台了，我们将在下一部分讨论这个问题。
 
-#### 提示/Tips
+#### 提示
 
 如果我们想查看全局或者局部变量的字典的时候，我们可以使用`globals()`和`locals()`来进行查看。
 ```python
@@ -114,7 +114,7 @@ loc in global: False
 glob in global: True
 ```
 
-#### LEGB规则下变量的作用域解析/Scope resolution via LEGB rule
+#### LEGB规则下变量的作用域解析
 
 我们已经了解了多个命名空间可以相互独立的存在，然后他们可以在不同的层级包含相同的变量名。而“作用域”定义了Python应该去哪个层级上搜索变量名对应的对象。现在问题来了，Python是以怎样的顺序来搜索不同的命名空间，直到它找到对应的“名字到对象”组合呢？
 
@@ -337,4 +337,198 @@ outer after(): inner value
 ```
 
 ### 3.LEGB - 局部(Local)、封闭(Enclosed)、全局(Global)、内建(Built-in)作用域
+
+为了完整阐述LEGB规则，下面我们来了解一下内建作用域。比如我们定义了一个自己的计算长度的函数。这个函数和内建的`len()`函数一模一样。你认为下面的代码会输出什么样的结果呢？
+
+##### 例子 3
+
+```python
+a_var = 'global variable'
+
+def len(in_var):
+	print('called my len() function')
+	l = 0
+	for i in in_var:
+		l += 1
+	return l	
+
+def a_func(in_var):
+	len_in_var = len(in_var)
+	print('Input variable is of length', len_in_var)
+	
+a_func('Hello World')
+```
+
+##### a)
+```
+raise an error (conflict with in-built `len()` function)
+```
+
+##### b)
+```
+called my len() function
+Input variable is of length 13
+```
+
+##### c)
+```
+Input variable is of length 13
+```
+
+#### 原因
+
+为什么同样的名字能够用于指向不同的对象呢？——因为他们是在不同的作用域之中。再次使用`len`这个名字是没有任何问题的（这样做只是为了证明这个观点，实际上我们并不推荐这么做）。根据Python的L->E->G->B的作用域搜索规则，`a_func()`在全局作用域(G)就找到了`len()`的定义，而不是在内建作用域中(B)。
+
+### 自测题
+
+在学习了一大堆知识之后，现在，让我们检查一下我们的学习成果。下面的代码会输出什么？
+
+```python
+a = "global"
+
+def outer():
+	def len(in_var):
+		print('called my len() function: ', end="")
+		l = 0
+		for i in in_var:
+			l += 1
+		return l
+		
+	a = 'local'
+	
+	def inner():
+		global len
+		nonlocal a
+		a += ' variable'
+	inner()
+	print('a is', a)
+	print(len(a))
+	
+outer()
+
+print(len(a))
+print('a is', a)
+```
+
+### 结论
+
+希望这个简短的说明能够帮助你基本明白Python中依赖于LEGB法则的作用域工作方式。可以通过明天再尝试预测上文中的自测题的输出巩固今天的学习成果。
+
+#### 经验规则
+
+在实际应用中，**在函数内部修改全局变量不是一个好的选择**，因为这样会造成令人迷惑和很难被发现的错误。
+
+如果你希望通过一个函数修改一个全局变量的值，推荐使用传给它一个值再用它返回一个值的方式。例如：
+```python
+a_var = 2
+
+def a_func(some_var):
+	return a_var**3
+	
+a_var = a_func(a_var)
+print(a_var)
+```
+```
+8
+```
+
+##### 问题答案
+
+为了防止偷瞟答案的行为，我已经把答案写成了二进制编码的形式。要显示这些问题的答案，只需将其复制到Python解释器中运行
+
+```python
+print('Example 1.1:', chr(int('01100011', 2)))
+```
+```python
+print('Example 1.2:', chr(int('01100010', 2)))
+```
+```python
+print('Example 2.1:', chr(int('01100011', 2)))
+```
+```python
+print('Example 3.1:', chr(int('01100010', 2)))
+```
+
+```python
+# Execute to run the self-assessment solution
+
+sol = "000010100110111101110101011101000110010101110010001010"\
+"0000101001001110100000101000001010011000010010000001101001011100110"\
+"0100000011011000110111101100011011000010110110000100000011101100110"\
+"0001011100100110100101100001011000100110110001100101000010100110001"\
+"1011000010110110001101100011001010110010000100000011011010111100100"\
+"1000000110110001100101011011100010100000101001001000000110011001110"\
+"1010110111001100011011101000110100101101111011011100011101000100000"\
+"0011000100110100000010100000101001100111011011000110111101100010011"\
+"0000101101100001110100000101000001010001101100000101001100001001000"\
+"0001101001011100110010000001100111011011000110111101100010011000010"\
+"1101100"
+
+sol_str =''.join(chr(int(sol[i:i+8], 2)) for i in range(0, len(sol), 8))
+for line in sol_str.split('\n'):
+    print(line)
+```
+
+#### 注意：For循环中变量会泄露至全局命名空间的问题
+
+和其他语言不同，Python中的`for`循环会泄露他们在`for`循环中定义的变量。
+```python
+for a in range(5):
+	if a == 4:
+		print(a, '-> a in for-loop')
+print(a, ' -> a in global')
+```
+```
+4 -> a in for-loop
+4 -> a in global
+```
+
+**这甚至影响到我们在`for`循环之前定义的全局变量！**下面的例子会重新修改存在的变量的值：
+```python
+b = 1 
+for b in range(5):
+	if b == 4:
+		print(b, '-> b in for-loop')
+print(b, '-> b in global')
+```
+```
+4 -> b in for-loop
+4 -> b in global
+```
+
+但是在**Python 3.x**里我们可以使用闭包(closure)来避免`for`循环中的变量污染到全局变量中。这是一个例子（在Python 3.4中运行成功）
+```python
+i = 1
+print([i for i in range(5)])
+print(i, '-> in global')
+```
+```
+[0, 1, 2, 3, 4]
+1 -> i in global
+```
+
+为什么我这里要提到“Python 3.x”呢？因为同样的代码会在Python 2.x中输出:
+```
+...
+(4, -> i in global)
+```
+
+原因在于Python 3.x中修改了`[]`的内部原理，参见[What's New In Python 3.0](https://docs.python.org/3/whatsnew/3.0.html)：
+
+> "... 列表表达式`[]`有新的语义：现在它更接近一个在`list()`中使用生成器的语法糖，现在其中循环的的控制变量不会泄露至它的上一级作用域。..."
+
+### 译者注
+
+关于最后一个问题，现有的比较好的解决方案是使用`list()`代替`[]`生成，下面的代码在Python 2.7上运行成功
+```python
+i = 1
+print(list(i in for i in range(5)))
+print("%d -> i in global" % i)
+```
+```
+[0, 1, 2, 3, 4]
+1 -> i in global
+```
+
+
 
