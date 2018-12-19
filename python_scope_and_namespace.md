@@ -1,4 +1,4 @@
-# 一个简单的关于Python内的命名空间(Namespaces)，作用域解析(Scope Resolution)，以及LEGB规则的介绍
+﻿# 一个简单的关于Python内的命名空间(Namespaces)，作用域解析(Scope Resolution)，以及LEGB规则的介绍
 
 > May 12, 2014
 > by Sebastian Raschka
@@ -13,7 +13,7 @@
 | enclosed     | 封闭         |
 | built-in     | 内建的       |
 
-这是一篇简短的LEGB规则下关于Python的变量名的命名空间和作用域解析的文章。接下来的部分会以简短的例子代码形式解释简短的问题。你可以只阅读这篇文章，但我建议你运行例子里的代码——复制&粘贴即可。如果想更简便一点，点击[这里]()下载IPython notebook。
+这是一篇简短的LEGB规则下关于Python的变量名的命名空间和作用域解析的文章。接下来的部分会以简短的例子代码形式解释简短的问题。你可以只阅读这篇文章，但我建议你运行例子里的代码——复制&粘贴即可。如果想更简便一点，点击[这里](https://raw.githubusercontent.com/rasbt/python_reference/master/tutorials/scope_resolution_legb_rule.ipynb)下载IPython notebook。
 
 ### 目录
 
@@ -23,19 +23,19 @@
 	* [命名空间](#命名空间)
 	* [作用域](#作用域)
 	* [提示](#提示)
-	* [LEGB规则下变量的作用域解析](#LEGB规则下变量的作用域解析)
-* 1.LG - 局部(Local)和全局(Global)作用域
-	* 原因
-	* 原因
-* 2.LEG - 局部(Local)、封闭(Enclosed)和全局(Global)作用域
-	* 原因
-* 3.LEGB - 局部(Local)、封闭(Enclosed)、全局(Global)和内建(Built-in)作用域
-	* 原因
-* 自测题
-* 结论
-	* 经验规则
-	* 问题答案
-	* 注意：For循环中变量会泄露至全局命名空间的问题
+	* [LEGB规则下变量的作用域解析](#legb规则下变量的作用域解析)
+* [1.LG - 局部(Local)和全局(Global)作用域](#1lg---局部(local)和全局(global)作用域)
+	* [原因](#原因1-1)
+	* [原因](#原因1-2)
+* [2.LEG - 局部(Local)、封闭(Enclosed)和全局(Global)作用域](#2leg---局部(local)、封闭(enclosed)和全局(global)作用域)
+	* [原因](#原因2)
+* [3.LEGB - 局部(Local)、封闭(Enclosed)、全局(Global)和内建(Built-in)作用域](#3legb---局部(local)、封闭(enclosed)、全局(global)和内建(built-in)作用域)
+	* [原因](#原因3)
+* [自测题](#自测题)
+* [结论](#结论)
+	* [经验规则](#经验规则)
+	* [问题答案](#问题答案)
+	* [注意：For循环中变量会泄露至全局命名空间的问题](#注意：for循环中变量会泄露至全局命名空间的问题)
 	
 ### 目标
 
@@ -43,7 +43,7 @@
 * 我能够同时定义/重用多个变量名吗？
 * Python是以什么样的顺序查找不同的命名空间中的变量名的？
 
-### 关于命名空间和作用域的介绍
+### 关于命名空间(namespace)和作用域(scope)的介绍
 
 #### 命名空间
 
