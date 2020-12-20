@@ -1,6 +1,8 @@
 # 编辑器(Vim)
 
-> 译者：xubeiyan 校对：
+> 译者：xubeiyan 校对：(正在找人来背锅)
+
+> 译自：https://missing.csail.mit.edu/2020/editors/
 
 写程序代码和写英文文字是完全不同的操作。当你在写程序代码时，你会花更多的时间在切换打开的文件，阅读文件，跳至文件的特定区域，编辑文件。而编写一大段文字则花不了多少时间，于是很有必要区别开写程序代码和写英文文字的程序（例如Visual Studio Code和Microsoft Word）。
 
