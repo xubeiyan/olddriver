@@ -219,19 +219,27 @@ Vim的可定制化极高，也值得花上一些时间去研究这些可以自�
 
 ## 一些资源
 
-- `vimtutor`是一个vim的使用手册（它随着vim一起安装）
+- `vimtutor`是一个vim的使用手册（它随着vim一起安装）。你可以从你的Shell中运行`vimtutor`来启动它
+- [Vim Adventure](https://vim-adventures.com/)一个学习Vim的游戏
+- [Vim Tips Wiki](http://vim.wikia.com/wiki/Vim_Tips_Wiki)
+- [Vim Advent Calendar](https://vimways.org/2019/) 一些使用小技巧
+- [Vim Golf](http://www.vimgolf.com/) 是code golf，但是使用的是Vim的UI
+- [Vi/Vim Stack Exchange](https://vi.stackexchange.com/)
+- [Vim Screencasts](http://vimcasts.org/)
+- [Practical Vim](https://pragprog.com/titles/dnvim2/) 是一本书
+
 
 ## 练习
 
 1. 请完成`vimtutor`。注意：这个程序似乎在80x24（80行24列）的终端窗口下工作比较好
 2. 下载我们提供的[基本的vimrc](https://missing.csail.mit.edu/2020/files/vimrc)
 3. 安装并配置ctrlp.vim这个插件
-	1.
-	2.
-	3.
-	4.
-4.
-5.
-6.
-7.
-8.
+	1.    
+	2.    
+	3.    
+	4.    
+4. 练习使用Vim，自己尝试使用Vim完成Demo的修改
+5. 尝试使用Vim作为你所有的文字编辑
+6. 配置其他工具尝试使用Vim按键绑定
+7. 更深远地修改你的`~/.vimrc`以及安装更多的插件
+8. （给有能力的学生）使用Vim宏实现自动转化XML文件至JSON文件（例子文件在[这里](https://missing.csail.mit.edu/2020/files/example-data.xml)）。可以自己尝试，但如果你感到困难可以阅读[此文件](https://missing.csail.mit.edu/2020/editors/#macros)
