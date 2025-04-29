@@ -1,5 +1,7 @@
 # 不要忘记你还有 `AbortController`
 
+### 翻译中……
+
 > 翻译自[don't sleep on AbortController](https://kettanaito.com/blog/dont-sleep-on-abort-controller)
 
 今天，我们来研究一下标准`JavaScript API`中的几乎被遗忘的一个东西——`AbortController`。
